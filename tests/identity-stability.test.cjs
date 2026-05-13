@@ -20,6 +20,7 @@ const SCRIPTS = path.resolve(__dirname, '..', 'bootstrap', 'templates', 'scripts
 const arch = require(path.join(SCRIPTS, 'architecture-diff-guard.cjs'));
 const cross = require(path.join(SCRIPTS, 'check-cross-module-relative-imports.cjs'));
 const bound = require(path.join(SCRIPTS, 'boundary-check.cjs'));
+const depc = require(path.join(SCRIPTS, 'dep-cruiser-baseline.cjs'));
 
 let passed = 0;
 let failed = 0;
@@ -260,6 +261,72 @@ test('bound.saveBaseline: written entries use canonical v1.1.1 format', () => {
   // Indirect check — saveBaseline writes to disk; we mimic by calling violationKey directly.
   const v = { file: 'src/a.ts', line: 5, rule: 'no-restricted-imports', target: '../b/x' };
   assert.equal(bound.violationKey(v), 'src/a.ts:no-restricted-imports:../b/x');
+});
+
+// ─── dep-cruiser-baseline.cjs (NEW in v1.3, extracted из loom) ────────────
+test('depc.extractViolations: dependency-level rule → canonical identity', () => {
+  const report = {
+    modules: [
+      {
+        source: 'src/a/foo.ts',
+        dependencies: [
+          {
+            resolved: 'src/b/bar.ts',
+            rules: [{ name: 'adapter-no-orchestration', severity: 'error' }],
+          },
+        ],
+        rules: [],
+      },
+    ],
+  };
+  const violations = depc.extractViolations(report);
+  assert.equal(violations.length, 1);
+  assert.equal(violations[0].identity, 'src/a/foo.ts:adapter-no-orchestration:src/b/bar.ts');
+});
+
+test('depc.extractViolations: module-level rule (orphan) → identity uses file as target', () => {
+  const report = {
+    modules: [
+      {
+        source: 'src/a/orphan.ts',
+        dependencies: [],
+        rules: [{ name: 'no-orphan', severity: 'error' }],
+      },
+    ],
+  };
+  const violations = depc.extractViolations(report);
+  assert.equal(violations.length, 1);
+  assert.equal(violations[0].identity, 'src/a/orphan.ts:no-orphan:src/a/orphan.ts');
+});
+
+test('depc.extractViolations: severity=warn is ignored (error-only)', () => {
+  const report = {
+    modules: [
+      {
+        source: 'src/a.ts',
+        dependencies: [
+          { resolved: 'src/b.ts', rules: [{ name: 'soft-rule', severity: 'warn' }] },
+        ],
+        rules: [],
+      },
+    ],
+  };
+  assert.equal(depc.extractViolations(report).length, 0);
+});
+
+test('depc.diffNew: identity in baseline → not reported as new', () => {
+  const baseline = new Set(['src/a.ts:r:src/b.ts']);
+  const current = ['src/a.ts:r:src/b.ts', 'src/a.ts:r:src/c.ts'];
+  const newOnes = depc.diffNew(current, baseline);
+  assert.deepEqual(newOnes, ['src/a.ts:r:src/c.ts']);
+});
+
+test('depc.diffNew: shifted file content cannot break baseline (identity has no line)', () => {
+  // dep-cruiser identity model is already line-free by design — included for parity
+  // with boundary-check and cross-module regression tests.
+  const baseline = new Set(['src/a.ts:adapter-no-orchestration:src/b.ts']);
+  const current = ['src/a.ts:adapter-no-orchestration:src/b.ts'];
+  assert.equal(depc.diffNew(current, baseline).length, 0);
 });
 
 // ─── SUMMARY ─────────────────────────────────────────────────────────────

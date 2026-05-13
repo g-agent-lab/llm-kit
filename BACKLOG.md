@@ -33,9 +33,10 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Real-world apply on second project (loom) | **Partial — 2026-05-13** | Kit скопирован в `loom/llm-kit/`, Claude Code на loom правильно identified missing overlay → triggered creation of `typescript-node-cli.md`. Confirmed kit's known gap (TS/Nest-only), confirmed overlay-extraction loop работает. **Full 13-step bootstrap НЕ прогонялся** — applied partially. |
-| Real-world greenfield bootstrap test (13 шагов end-to-end) | Pending | Throwaway project, ни одного раза не прогонялся целиком. |
-| Real-world brownfield bootstrap test (legacy не-Portiqa) | Pending | Brownfield mechanic проверен только на Portiqa с already-discipline. На cold legacy может вскрыться missing step. |
+| Real-world apply on second project (loom — TS+ESM CLI) | **Done — 2026-05-13** | (1) Overlay `typescript-node-cli.md` extracted; (2) ESM compat fix `.js→.cjs` (v1.2.1); (3) Full brownfield bootstrap 12/13 шагов завершён (v1.3); (4) 6-й universal script `dep-cruiser-baseline.cjs` extracted from loom |
+| Real-world greenfield bootstrap test (13 шагов end-to-end) | Pending | Throwaway project, ни одного раза не прогонялся целиком. Brownfield validated в loom; greenfield — нужен new project. |
+| Real-world brownfield bootstrap test (legacy не-Portiqa) | **Done — 2026-05-13** | Loom brownfield 12/13 шагов pushed на `loom/master`. Baselines 194/12/0. Step 13 (first ralphex iteration) deferred до отдельной сессии. |
+| First end-to-end ralphex iteration via kit (Step 13) | Pending | Loom Step 13: ralphex execution через kit pipeline на реальном плане. Validates что вся развёрнутая infrastructure работает feature-end-to-end. |
 
 Smoke-test harness (`tests/`) частично закрывает risks — но automated synthetic tests ≠ human bootstrap experience.
 
@@ -48,6 +49,31 @@ Smoke-test harness (`tests/`) частично закрывает risks — но
 | Universal = TS/Nest-first → нужны overlays | **Acknowledged**, в backlog (см. таблицу выше). Не блокирует v1. | future |
 | Smoke-test harness | **Implemented** в v1.1 (12 unit + 6 integration); расширен в v1.1.1 до 26 unit + 7 integration с boundary-check coverage | v1.1 → v1.1.1 |
 | Operator profile separation (Gurgen-mode vs universal core) | **Rejected by design** — see шапка `UNIVERSAL_CORE.md` «Operator profile». Premature abstraction под гипотетический use case. | n/a |
+
+## Real-world findings — loom brownfield bootstrap (v1.3)
+
+**Major milestone:** первое полное brownfield bootstrap on не-Portiqa проекте. 12/13 шагов завершены, push'нуто на `loom/master`. Step 13 (first ralphex iteration) defer'ен до отдельной сессии. Это закрывает **Real-world brownfield validation** white-space из validation backlog.
+
+| Finding | Decision | Iteration |
+|---|---|---|
+| dep-cruiser не имеет native baseline mechanic; loom написал custom 111-line wrapper script | **Promoted to kit template** (v1.3) — `dep-cruiser-baseline.cjs` теперь 6-й universal script. Canonical identity `<file>:<rule>:<target>` matches остальные scripts. +5 unit tests в smoke harness (extractViolations dep-rule, module-rule, severity filter, diffNew). Closes implicit gate gap для projects где ESLint plugin-boundaries недостаточен. | v1.3 |
+| Prettier drift на legacy codebase (75 файлов на loom) блокирует baseline freeze | **Documented as brownfield-pragmatic exception** (§5.3a in brownfield.md) — one-shot mechanical `prettier --write` перед baseline. Validated: 75 files normalized, 0 tests broken. Не применимо к greenfield (там drift не накапливается). | v1.3 |
+| ESLint plugin-boundaries v6 имеет new selector-syntax который overlay (typescript-nestjs.md) не покрывает; loom отложил `boundary-baseline.json=[0]` pending migration | **Acknowledged in BACKLOG, не blocking** — kit identity model работает, plugin selector syntax — overlay-specific issue. Loom deferred с `0` baseline и noted in roadmap. Overlay update под v6 — отдельный task когда возникнет real demand. | future |
+| Kit как submodule (`loom/external/llm-kit/`) — alternative to copy pattern; loom использует submodule reference, не copy | **Acknowledged, не promoted** — submodule requires kit как standalone git repo; copy works для всех cases. Loom-specific choice (Portiqa repo как kit-host). Бus mention в bootstrap не stoit (premature standardization). | n/a |
+| Validated artifacts from loom brownfield: 64-line CLAUDE.md (kit limit ≤100), `npm run format && lint && lint:deps:ci && lint:imports:ci` single pre-commit command, 4-job CI workflow с 8/9 gates active, baselines 194/12/0 (cross-module/dep-cruiser/boundary) | **Brownfield playbook validated** — 12 шагов из 13 отработали как написано. Step 13 (first ralphex iteration) — это feature-run validation, не bootstrap. | v1.3 |
+
+**Что подтвердилось:**
+- baseline mechanic (`existing tolerated, new blocked`) масштабируется на real legacy
+- 5-layer DAG applies to CLI (loom 5 layers: shared/config-util-migrations, infra/tools, domain/case-evidence, orchestration/orchestrator-repl-cli, adapter/voices)
+- 3 forbidden directions работают как dep-cruiser rules
+- Cleanup-on-touch принимаемо без user push-back (no escape hatch invariant held)
+- Memory layer + 6 skills + 3 hooks installable за один шаг
+- Pre-commit command compact и actionable
+
+**Что не подтвердилось (вне scope этой apply):**
+- Step 13 first ralphex iteration end-to-end
+- Long-term cleanup-on-touch behavior (требует месяцев feature work)
+- Eventually-zero baseline reduction trajectory
 
 ## Real-world findings — loom ESM compat (v1.2.1)
 

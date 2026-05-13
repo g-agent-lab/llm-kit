@@ -10,6 +10,7 @@ Universal Node.js (≥18) скрипты для 5 enforcement gates из core §
 | `boundary-check.cjs` | 3 | Parse linter JSON output → boundary violations + baseline |
 | `arch-report.cjs` | (helper) | Prioritized human-readable report from linter JSON |
 | `architecture-diff-guard.cjs` | 7 | Diff-scoped guard + cleanup-on-touch FAIL |
+| `dep-cruiser-baseline.cjs` | 6 | dependency-cruiser wrapper adding brownfield baseline mechanic (cycles + DAG layering) |
 | `docs-lint.cjs` | 8 | Docs consistency checks (model count, env vars, etc.) |
 
 ## Contract
@@ -38,6 +39,9 @@ Universal Node.js (≥18) скрипты для 5 enforcement gates из core §
     "lint:boundaries:update-baseline": "<linter-json-output-cmd> | node scripts/boundary-check.cjs --update",
     "lint:arch": "<linter-json-output-cmd> | node scripts/arch-report.cjs",
     "lint:arch:diff": "node scripts/architecture-diff-guard.cjs",
+    "lint:deps": "depcruise --config .dependency-cruiser.cjs src",
+    "lint:deps:ci": "node scripts/dep-cruiser-baseline.cjs",
+    "lint:deps:update-baseline": "node scripts/dep-cruiser-baseline.cjs --update",
     "lint:docs": "node scripts/docs-lint.cjs"
   }
 }
@@ -146,3 +150,5 @@ The adapter script reads stdin, transforms, writes ESLint JSON to stdout.
 ## Language-agnostic scripts
 
 `check-cross-module-relative-imports.cjs` and `docs-lint.cjs` — **no linter dependency**, work via filesystem + git + regex. Adapt CONFIG block (file extensions, source dirs, regex pattern) per stack.
+
+`dep-cruiser-baseline.cjs` — depends on `dependency-cruiser` npm package (typically devDependency) и `.dependency-cruiser.cjs` config in project root. Stack-agnostic — dep-cruiser supports JS, TS, CommonJS, ESM, Python (3rd-party plugin).

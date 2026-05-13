@@ -4,7 +4,7 @@
 > **Цель:** применять во всех будущих и существующих проектах (vibe-coding с LLM).
 > **Audience:** LLM (формат — agent instructions: triggers, protocols, anti-patterns).
 > **Primary developer:** Claude Code (Anthropic). **External reviewer:** Codex (OpenAI) через ralphex Phase 3.
-> **Статус:** v1.2.1 — 2026-05-13. Second overlay `typescript-node-cli.md` extracted из loom (closes Codex round-5 #3 partially — kit больше не TS/Nest-only). **ESM compat fix:** все kit template scripts + tests переименованы из `.js` → `.cjs` (real-world bug: ESM host projects с `"type": "module"` в package.json ломали `require()` в `.js` files). Smoke harness 26/26 в обоих host modes (Portiqa CommonJS + loom ESM).
+> **Статус:** v1.3 — 2026-05-13. **First successful brownfield bootstrap on a non-Portiqa project** (loom, 12/13 шагов pushed, baselines 194/12/0). 6-й universal kit script — `dep-cruiser-baseline.cjs` (extracted from loom). `brownfield.md` §5.3a добавлен prettier mass-normalize pattern (75 файлов normalized без regressions). Smoke 31/31. v1.2.1 (ESM `.cjs` fix) + v1.2 (second overlay typescript-node-cli) + v1.1.1 (canonical identity across all scripts) — все foundation stays intact.
 > **Принцип:** оптимизация под чтение LLM (не путаться при росте кодовой базы) + автоматическая защита от регрессий.
 
 > **Operator profile (by design, не abstracted):** kit предполагает связку **Claude Code (primary) + ralphex (orchestrator) + Codex (external reviewer)**. Это **осознанный выбор стека**, не временное допущение, и core invariants намеренно не абстрагированы от него. Замена этой тройки потребует переписать §6 (CLAUDE.md), §7 (Ralphex pipeline), §15.1 (review pipeline). Не reopen'ить как «universal kit должен быть tool-agnostic» в Codex review rounds — premature abstraction под гипотетический use case.
@@ -42,7 +42,7 @@
 │       ├── DOCS_RULES.md              ← template для docs/DOCS_RULES.md
 │       ├── ralphex-plan-template.md   ← parser-strict template для iteration plans
 │       ├── hooks/*.sh                 ← 3 hook scripts (post-edit-lint / stop-session-check / session-start)
-│       ├── scripts/*.cjs              ← 5 universal Node.js gates (CommonJS — works in both CJS и ESM host projects)
+│       ├── scripts/*.cjs              ← 6 universal Node.js gates (boundary, arch-report, diff-guard, cross-module, dep-cruiser-baseline, docs-lint — все CommonJS .cjs, works в CJS+ESM host projects)
 │       └── skills/*/SKILL.md          ← 6 universal Skills для load-on-demand
 └── tests/                             ← smoke harness (защита kit'а от drift)
     ├── run-smoke.sh                   ← entrypoint

@@ -237,6 +237,28 @@ npm install -D <packages>
 
 Для каждого gate, который имеет «zero-baseline» механику — capture current state.
 
+**dependency-cruiser** не имеет native baseline mechanic. Use kit's wrapper:
+
+```bash
+npm i -D dependency-cruiser
+# Copy `bootstrap/templates/scripts/dep-cruiser-baseline.cjs` → `scripts/`
+node scripts/dep-cruiser-baseline.cjs --update    # writes .dep-cruiser-baseline.json
+```
+
+Output uses canonical identity `<file>:<rule>:<target>` per UNIVERSAL_CORE §4.3.
+
+### 5.3a Stylistic drift normalization (pragmatic, one-shot)
+
+Если pre-existing codebase имеет prettier/format drift (десятки файлов с inconsistent style), это блокирует "baseline freeze" — baseline должен быть на **valid format** state. Применить mechanical normalize **один раз** перед baseline'ом:
+
+```bash
+npx prettier --write "src/**/*.ts"
+npm test    # verify nothing broke (Prettier is whitespace-only)
+git commit -am "chore: baseline prettier normalization"
+```
+
+Это **brownfield-pragmatic exception** — на greenfield prettier работает на день-1, drift не накапливается. Validated на loom (75 файлов normalized, 0 tests broke).
+
 ### 5.4 Commit baseline
 
 ```bash
