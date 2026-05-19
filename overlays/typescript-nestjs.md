@@ -1,7 +1,7 @@
 # Overlay — TypeScript + NestJS
 
 > **Stack:** NestJS 11 + Prisma 7 + TypeScript strict + SWC + ESLint 9 (flat) + sonarjs + Jest (SWC) + Vitest (UI если есть).
-> **Производный от:** Portiqa OS (production-validated).
+> **Производный от:** internal NestJS platform (production-validated).
 > **Audience:** LLM (primary developer: Claude Code).
 > **Канон:** `UNIVERSAL_CORE.md`. Этот файл — implementation reference для TS+NestJS стека.
 
@@ -661,7 +661,7 @@ External code: `import { FooService } from '@/foo/public';`
 export class FooModule {}
 ```
 
-Накопленная боль (Portiqa): 15+ forwardRef pairs было, сейчас сокращены до ~10. Если можешь обойтись событиями (`EventEmitter2`) — лучше events, чем forwardRef.
+Накопленная боль (the NestJS host): 15+ forwardRef pairs было, сейчас сокращены до ~10. Если можешь обойтись событиями (`EventEmitter2`) — лучше events, чем forwardRef.
 
 ### 12.3 `@Global()` bridge modules
 
@@ -1429,7 +1429,7 @@ Run: `cd api && npm run codebase-map`.
 
 > **Core §5.2 mandates** docs lint as one of 9 gates. Stack-specific implementation lives in `api/scripts/docs-lint.cjs`.
 
-Реальная реализация в Portiqa — `api/scripts/docs-lint.cjs` (~300 строк Node.js без deps). Проверки:
+Реальная реализация в the NestJS host — `api/scripts/docs-lint.cjs` (~300 строк Node.js без deps). Проверки:
 
 | Check | Implementation |
 |---|---|

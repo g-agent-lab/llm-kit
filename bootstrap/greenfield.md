@@ -252,7 +252,7 @@ mkdir -p docs/{plans/{drafts/done,active/completed},reference,modules,operations
 |---|---|
 | `docs/CONTEXT.md` | Entry point: что-проект, stack, links на UNIVERSAL_CORE и module-routing |
 | `docs/SESSION.md` | Заголовок + дата начала + пустая секция "Что сделано" |
-| `docs/DOCS_RULES.md` | Скопировать template из `bootstrap/templates/DOCS_RULES.md` (или сократить из Portiqa version) |
+| `docs/DOCS_RULES.md` | Скопировать template из `bootstrap/templates/DOCS_RULES.md` (или сократить из the NestJS host version) |
 | `AGENTS.md` (root) | Operational subset для external agents (Codex) — короткая выжимка CLAUDE.md |
 | `docs/plans/ROADMAP.md` | Заголовок + пустые секции "В работе" / "Активные Drafts" / "Что дальше" |
 | `docs/reference/module-routing.md` | 4 universal zones + пустой список модулей |

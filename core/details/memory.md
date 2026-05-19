@@ -11,7 +11,7 @@
 **Путь:** `~/.claude/projects/<path-encoded-project-dir>/memory/` (Claude Code-managed).
 
 Конкретное имя директории Claude Code формирует path-encoding:
-`/Users/gurgen/project_it/MyApp` → `-Users-gurgen-project_it-MyApp`
+`/Users/<user>/code/MyApp` → `-Users-<user>-code-MyApp`
 
 Получить точное имя:
 ```bash

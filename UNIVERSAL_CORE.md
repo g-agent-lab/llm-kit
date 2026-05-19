@@ -1,10 +1,10 @@
 # Универсальное архитектурное ядро (LLM Discipline Kit)
 
-> **Источник:** извлечено из Portiqa OS / Clever Agent.
+> **Источник:** извлечено из internal NestJS platform.
 > **Цель:** применять во всех будущих и существующих проектах (vibe-coding с LLM).
 > **Audience:** LLM (формат — agent instructions: triggers, protocols, anti-patterns).
 > **Primary developer:** Claude Code (Anthropic). **External reviewer:** Codex (OpenAI) через ralphex Phase 3.
-> **Статус:** v1.3 — 2026-05-13. **First successful brownfield bootstrap on a non-Portiqa project** (loom, 12/13 шагов pushed, baselines 194/12/0). 6-й universal kit script — `dep-cruiser-baseline.cjs` (extracted from loom). `brownfield.md` §5.3a добавлен prettier mass-normalize pattern (75 файлов normalized без regressions). Smoke 31/31. v1.2.1 (ESM `.cjs` fix) + v1.2 (second overlay typescript-node-cli) + v1.1.1 (canonical identity across all scripts) — все foundation stays intact.
+> **Статус:** v1.3 — 2026-05-13. **First successful brownfield bootstrap on a non-NestJS-host project** (loom, 12/13 шагов pushed, baselines 194/12/0). 6-й universal kit script — `dep-cruiser-baseline.cjs` (extracted from loom). `brownfield.md` §5.3a добавлен prettier mass-normalize pattern (75 файлов normalized без regressions). Smoke 31/31. v1.2.1 (ESM `.cjs` fix) + v1.2 (second overlay typescript-node-cli) + v1.1.1 (canonical identity across all scripts) — все foundation stays intact.
 > **Принцип:** оптимизация под чтение LLM (не путаться при росте кодовой базы) + автоматическая защита от регрессий.
 
 > **Operator profile (by design, не abstracted):** kit предполагает связку **Claude Code (primary) + ralphex (orchestrator) + Codex (external reviewer)**. Это **осознанный выбор стека**, не временное допущение, и core invariants намеренно не абстрагированы от него. Замена этой тройки потребует переписать §6 (CLAUDE.md), §7 (Ralphex pipeline), §15.1 (review pipeline). Не reopen'ить как «universal kit должен быть tool-agnostic» в Codex review rounds — premature abstraction под гипотетический use case.
@@ -29,7 +29,7 @@
 │       ├── codebase-map.md            ← §18 details
 │       └── cost-discipline.md         ← §19 details (LLM-in-runtime projects only)
 ├── overlays/
-│   ├── typescript-nestjs.md           ← backend stack: NestJS + Prisma + HTTP (extracted из Portiqa)
+│   ├── typescript-nestjs.md           ← backend stack: NestJS + Prisma + HTTP (extracted из the NestJS host)
 │   ├── typescript-node-cli.md         ← CLI / orchestrator stack: ESM Node 22 + Vitest + commander + execa (extracted из loom)
 │   ├── python-fastapi.md              ← (будущее, см. BACKLOG.md)
 │   ├── python-aiogram.md              ← (будущее, см. BACKLOG.md)

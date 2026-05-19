@@ -473,7 +473,7 @@ vi.mock("execa", () => ({
 const spy = vi.spyOn(fs, "readFile").mockResolvedValueOnce("mocked content");
 ```
 
-**No `jest.mock` factory pattern caveats** (как в SWC-based Jest setup на Portiqa) — Vitest ESM подход чище: vi.mock factory is module-scoped, не closure-captured.
+**No `jest.mock` factory pattern caveats** (как в SWC-based Jest setup на the NestJS host) — Vitest ESM подход чище: vi.mock factory is module-scoped, не closure-captured.
 
 ## 13. Linting
 

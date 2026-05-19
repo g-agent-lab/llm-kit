@@ -6,7 +6,7 @@ All notable changes to LLM Discipline Kit. Format: [version](commit-ish) — dat
 
 ## [v1.3] — 2026-05-13 — First successful brownfield bootstrap (loom) + 6th universal script
 
-**Milestone:** first time a complete brownfield bootstrap was applied on a project not owned by kit authors. Validation backlog item "Real-world brownfield bootstrap test (legacy не-Portiqa)" → **Done**.
+**Milestone:** first time a complete brownfield bootstrap was applied on a project not owned by kit authors. Validation backlog item "Real-world brownfield bootstrap test (legacy non-NestJS-host)" → **Done**.
 
 ### Added
 - **`bootstrap/templates/scripts/dep-cruiser-baseline.cjs`** (6th universal script, 111 LOC) — extracted from loom's custom wrapper. dependency-cruiser has no native baseline mechanic; this provides one with canonical identity `<file>:<rule>:<target>`. Module-level rules use file as target; dependency-level rules use resolved import path. `--update` / `--report` / CI modes. Tested: 5 unit cases.
@@ -34,7 +34,7 @@ All notable changes to LLM Discipline Kit. Format: [version](commit-ish) — dat
 
 ## [v1.2.1] — 2026-05-13 — ESM compat fix (.js → .cjs)
 
-**Real-world finding** during loom kit sync: host projects with `"type": "module"` in package.json treat `.js` files as ESM, which broke `require()` calls in kit scripts and tests. Smoke harness in Portiqa (CommonJS-default host) didn't catch this — the bug only surfaced on ESM-default host.
+**Real-world finding** during loom kit sync: host projects with `"type": "module"` in package.json treat `.js` files as ESM, which broke `require()` calls in kit scripts and tests. Smoke harness in the NestJS host (CommonJS-default host) didn't catch this — the bug only surfaced on ESM-default host.
 
 ### Changed
 - Renamed all kit-internal CommonJS files: `.js` → `.cjs`
@@ -60,7 +60,7 @@ This is exactly the kind of bug that 7 rounds of Codex review could not predict.
 
 ## [v1.2] — 2026-05-13 — Second overlay (typescript-node-cli) from loom
 
-**Milestone:** first time an overlay was extracted from a real non-Portiqa project. Closes Codex round-5 finding #3 ("Universal = TS/Nest-first") partially — kit is no longer TS/Nest-only.
+**Milestone:** first time an overlay was extracted from a real non-NestJS-host project. Closes Codex round-5 finding #3 ("Universal = TS/Nest-first") partially — kit is no longer TS/Nest-only.
 
 ### Added
 - **`overlays/typescript-node-cli.md`** (709 LOC, 22 sections) — extracted from loom (personal CLI orchestrator):
@@ -108,7 +108,7 @@ Round-6 Codex review found that v1.1 closed the identity finding incompletely. R
 
 ### Rejected by design
 - **Cleanup-on-touch escape hatch** — see §4.3 "No escape hatch by design". Any formal escape hatch becomes default; baseline is the only formal amnesty.
-- **Operator profile separation** (Gurgen-mode vs universal core) — see header "Operator profile". Claude + ralphex + Codex is a deliberate stack choice, not abstracted away.
+- **Operator profile separation** (operator-specific mode vs universal core) — see header "Operator profile". Claude + ralphex + Codex is a deliberate stack choice, not abstracted away.
 
 ### Acknowledged in backlog
 - Universal = TS/Nest-first → additional overlays needed (next-react, serverless-worker added to python-fastapi/aiogram/go-stdlib list). Awaiting real projects on these stacks.
@@ -121,7 +121,7 @@ Round-6 Codex review found that v1.1 closed the identity finding incompletely. R
 
 ## [v1.0] — 2026-05-12 — Initial kit (6 iterations + 4 Codex rounds, 57 findings closed)
 
-First release. Portable kit extracted from Portiqa OS / Clever Agent.
+First release. Portable kit extracted from internal NestJS platform.
 
 ### Structure
 - `UNIVERSAL_CORE.md` (~890 LOC, 19 sections, hot-path)

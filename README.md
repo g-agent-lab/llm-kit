@@ -2,7 +2,7 @@
 
 > Portable kit для развёртывания LLM-driven development discipline на любом новом или legacy проекте.
 
-**Status:** v1.3 (2026-05-13). Production-validated на двух проектах (Portiqa OS backend, loom CLI orchestrator).
+**Status:** v1.3 (2026-05-13). Production-validated на двух проектах (internal NestJS platform backend, loom CLI orchestrator).
 
 **Repository:** https://github.com/g-agent-lab/llm-kit
 
@@ -95,7 +95,7 @@ llm-kit/
 │       ├── codebase-map.md            ← §18 Codebase map
 │       └── cost-discipline.md         ← §19 Cost discipline (LLM-runtime projects)
 ├── overlays/                          ← stack-specific (commands, configs, file patterns)
-│   ├── typescript-nestjs.md           ← extracted из Portiqa (production-validated)
+│   ├── typescript-nestjs.md           ← extracted из the NestJS host (production-validated)
 │   └── typescript-node-cli.md         ← extracted из loom (production-validated)
 ├── bootstrap/
 │   ├── greenfield.md                  ← 13-step playbook for new projects
@@ -203,8 +203,9 @@ MIT (или whatever you choose). Adjust before public release.
 
 ## Acknowledgements
 
-Extracted patterns из двух production проектов:
-- **[Portiqa OS](https://github.com/g-agent-lab/Clever_agent)** — single-company AI platform для short-term rental operations. Source of typescript-nestjs overlay (NestJS + Prisma + HTTP backend, 80 Prisma models, 6100+ tests).
-- **[loom](https://github.com/g-agent-lab/loom)** — personal multi-agent CLI orchestrator (Claude Code SDK + codex + ralphex). Source of typescript-node-cli overlay (ESM Node 22 + Vitest + commander + execa, 803 tests).
+Kit extracted from two production codebases:
 
-Kit lives как separate repo для cross-project reuse. Updates flow Portiqa/loom → kit repo (PR-style) → other consumers (submodule update).
+- A company-internal NestJS platform — source of the `typescript-nestjs` overlay (NestJS + Prisma + HTTP backend).
+- A personal Node CLI orchestrator — source of the `typescript-node-cli` overlay (ESM Node 22 + Vitest + commander + execa).
+
+Kit lives as a separate repo for cross-project reuse. Updates flow from consumer projects → kit repo (PR-style) → other consumers (submodule update).

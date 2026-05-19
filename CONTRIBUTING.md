@@ -4,9 +4,31 @@
 
 ---
 
+## Privacy review (run before every commit)
+
+The kit is intentionally public, but it's extracted from internal codebases. Before committing or opening a PR, run the privacy guard:
+
+```bash
+bash hooks/privacy-guard.sh           # scans staged files
+CI=true bash hooks/privacy-guard.sh   # scans the full tree (CI parity)
+```
+
+Install as a pre-commit hook so it runs automatically:
+
+```bash
+ln -s ../../hooks/privacy-guard.sh .git/hooks/pre-commit
+chmod +x hooks/privacy-guard.sh
+```
+
+The guard rejects any commit that contains operator-internal identifiers (personal account, internal product names, hard-coded `/Users/...` paths) or credential shapes (`sk-…`, `AKIA…`, `ghp_…`, `xoxb-…`). Same script runs in CI via `.github/workflows/privacy.yml`.
+
+When adding a new pattern to the forbidden list, edit `hooks/privacy-guard.sh` and document the addition in this section.
+
+---
+
 ## Cardinal rule
 
-**Kit grows from real projects, not from imagination.** Every pattern in this kit was extracted from working production code on Portiqa or loom. We do not pre-design overlays for stacks no one is using.
+**Kit grows from real projects, not from imagination.** Every pattern in this kit was extracted from working production code on the NestJS host or loom. We do not pre-design overlays for stacks no one is using.
 
 If you find yourself writing «I think Python projects would want X» — stop. Wait until you have a real Python project applying the kit, then extract X from the working solution.
 
@@ -28,7 +50,7 @@ If you find yourself writing «I think Python projects would want X» — stop. 
 | **New overlay** | First real project on that stack applies kit and reveals concrete patterns | `typescript-node-cli` extracted from loom after gap was identified by Claude Code on loom |
 | **New universal script** | Existing project needs gate that's missing from kit; writes a custom implementation; pattern is generalizable across stacks | `dep-cruiser-baseline.cjs` extracted from loom's custom wrapper |
 | **New bootstrap step** | Concrete missing step is discovered during real bootstrap on a project | §5.3a prettier mass-normalize discovered during loom brownfield |
-| **New `core/details/` section** | Real project hits a discipline gap not covered in core | None yet (all 9 details extracted из Portiqa from day-1) |
+| **New `core/details/` section** | Real project hits a discipline gap not covered in core | None yet (all 9 details extracted из the NestJS host from day-1) |
 
 ## What you cannot add (anti-patterns)
 
@@ -103,7 +125,7 @@ If you find yourself writing «I think Python projects would want X» — stop. 
 
 6. **Update UNIVERSAL_CORE.md** kit structure listing + `BACKLOG.md` overlay status table.
 
-7. **Sync into all known consumer projects** (Portiqa, loom, new project).
+7. **Sync into all known consumer projects** (the NestJS host, loom, new project).
 
 ---
 
@@ -183,12 +205,12 @@ github.com/g-agent-lab/llm-kit           ← canonical (this repo)
    ┌────────────┴────────────┐
    │                         │
    ▼                         ▼
-Portiqa OS                  loom
+internal NestJS platform                  loom
 docs/llm-kit/         external/llm-kit (submodule)
 ```
 
 **Recommended flow:**
-1. Edit in any consumer project where it's natural (Portiqa for backend patterns, loom for CLI)
+1. Edit in any consumer project where it's natural (the NestJS host for backend patterns, loom for CLI)
 2. After validation в consumer, copy/sync changes back into this canonical repo
 3. Commit + tag here
 4. Other consumers update via `git submodule update --remote` (или re-copy если используют copy pattern)

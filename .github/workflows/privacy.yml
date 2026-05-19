@@ -1,0 +1,22 @@
+name: privacy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  privacy-guard:
+    # Scan repo for operator-internal identifiers (project names, personal
+    # account, internal domain, accidental credentials). The same script
+    # runs locally as a pre-commit hook (see hooks/privacy-guard.sh).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run privacy guard (full tree)
+        env:
+          CI: "true"
+        run: bash hooks/privacy-guard.sh
