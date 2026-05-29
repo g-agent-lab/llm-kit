@@ -4,6 +4,22 @@ All notable changes to LLM Discipline Kit. Format: [version](commit-ish) — dat
 
 ---
 
+## [v1.4] — 2026-05-29 — `slice-draft-to-plans` extracted to loom marketplace (slicer plugin)
+
+**Change:** the `slice-draft-to-plans` skill is no longer a universal bootstrap template. It now ships as a standalone Claude Code plugin (`slicer` in `g-agent-lab/loom`), installed once globally rather than copied into every project at bootstrap. Single source of truth moved out of llm-kit.
+
+### Removed
+- **`bootstrap/templates/skills/slice-draft-to-plans/`** — deleted. Universal skills count: **6 → 5** (`route-new-logic`, `add-new-module`, `facade-decomposition`, `fix-cross-module-import`, `docs-sync-after-change`).
+- References updated in `UNIVERSAL_CORE.md` (§6.2 table + tree + checklist), `bootstrap/greenfield.md` (Шаг 9 + checklist), `bootstrap/brownfield.md` (skills list + checklist).
+
+### Kept
+- **`bootstrap/templates/ralphex-plan-template.md`** stays — it is still part of the ralphex pipeline (§7) and deployed by greenfield. The slicer plugin bundles its own corrected copy.
+
+### Fixed (in the extracted plugin, not here)
+- Parser contract verified against the real ralphex engine (`umputun/ralphex`, `pkg/plan/parse.go`): `### Iteration N:` documented as accepted; task-number "from 1" reframed as ordering convention; title language clarified as parser-irrelevant; added engine facts (indented checkboxes, `##`/h1 close tasks, `[ ]`-in-text examples ignored).
+
+---
+
 ## [v1.3] — 2026-05-13 — First successful brownfield bootstrap (loom) + 6th universal script
 
 **Milestone:** first time a complete brownfield bootstrap was applied on a project not owned by kit authors. Validation backlog item "Real-world brownfield bootstrap test (legacy non-NestJS-host)" → **Done**.

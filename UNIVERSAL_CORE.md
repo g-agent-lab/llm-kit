@@ -43,7 +43,7 @@
 │       ├── ralphex-plan-template.md   ← parser-strict template для iteration plans
 │       ├── hooks/*.sh                 ← 3 hook scripts (post-edit-lint / stop-session-check / session-start)
 │       ├── scripts/*.cjs              ← 6 universal Node.js gates (boundary, arch-report, diff-guard, cross-module, dep-cruiser-baseline, docs-lint — все CommonJS .cjs, works в CJS+ESM host projects)
-│       └── skills/*/SKILL.md          ← 6 universal Skills для load-on-demand
+│       └── skills/*/SKILL.md          ← 5 universal Skills для load-on-demand
 └── tests/                             ← smoke harness (защита kit'а от drift)
     ├── run-smoke.sh                   ← entrypoint
     ├── identity-stability.test.js     ← unit tests для identity model + legacy baseline normalization
@@ -358,7 +358,7 @@ docs/
 
 LLM подгружает только когда триггер сработал. Не висит в контексте при каждой задаче.
 
-**Universal skills (6, обязательны независимо от стека) — templates в `bootstrap/templates/skills/`:**
+**Universal skills (5, обязательны независимо от стека) — templates в `bootstrap/templates/skills/`:**
 
 | Skill | Когда триггерится | Что внутри |
 |---|---|---|
@@ -367,7 +367,10 @@ LLM подгружает только когда триггер сработал
 | `facade-decomposition` | сервис ≥500 LOC + 100+ delta | Triggers + extraction pattern с DI rewiring |
 | `fix-cross-module-import` | при касании файла с `../other-module/*` | Cleanup-on-touch для cross-module relative imports |
 | `docs-sync-after-change` | после edit code с триггерами (model/controller/env/contract) | Trigger → doc-to-update mapping |
-| `slice-draft-to-plans` | «нарезать draft», подготовка ralphex итерации | Parser contract, sizing rules, task structure |
+
+> `slice-draft-to-plans` вынесен из llm-kit в отдельный плагин маркетплейса
+> (`slicer` в `g-agent-lab/loom`) — установить глобально через `/plugin install slicer@loom`,
+> а не деплоить per-project. Template `bootstrap/templates/ralphex-plan-template.md` остаётся.
 
 **Universal conditional skills (2, templates в `bootstrap/templates/skills/`; install только если applicable):**
 
@@ -848,7 +851,7 @@ jobs:
 - [ ] Ralphex v1.1.0+ установлен, `~/.config/ralphex/` + `.ralphex/config` настроены (§7.2)
 - [ ] Codex external review включён (`codex_enabled=true`, `external_review_tool=codex`)
 - [ ] `~/.claude/projects/<path-encoded-project-dir>/memory/MEMORY.md` инициализирован (§10)
-- [ ] Minimum 6 universal Skills установлены (§6.2)
+- [ ] Minimum 5 universal Skills установлены (§6.2)
 - [ ] 3 universal Hooks установлены (§6.3)
 - [ ] `contracts/` директория создана если есть API surface (§1.5)
 - [ ] Security baseline (§14): secret scan + CVE check + SAST + license check + `.env.example`

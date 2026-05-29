@@ -336,7 +336,7 @@ wc -l CLAUDE.md
 
 ---
 
-## Шаг 9. Install universal Skills (6 obligatory)
+## Шаг 9. Install universal Skills (5 obligatory)
 
 **Action:**
 
@@ -344,7 +344,7 @@ wc -l CLAUDE.md
 mkdir -p .claude/skills/
 ```
 
-Установить 6 universal skills из template (взять из `bootstrap/templates/skills/`):
+Установить 5 universal skills из template (взять из `bootstrap/templates/skills/`):
 
 | Skill | Триггер |
 |---|---|
@@ -353,7 +353,6 @@ mkdir -p .claude/skills/
 | `facade-decomposition` | сервис ≥500 LOC + 100+ delta |
 | `fix-cross-module-import` | при касании файла с `../other-module/*` |
 | `docs-sync-after-change` | после edit code с model/controller/env/contract triggers |
-| `slice-draft-to-plans` | «нарезать draft», подготовка ralphex итерации |
 
 **Universal conditional** (install из templates ТОЛЬКО если applicable):
 
@@ -643,7 +642,7 @@ Pipeline пройдёт все 5 phases (Tasks → Review1 → External → Revi
 - [ ] `CLAUDE.md` ≤100 строк, содержит 8 minimum sections
 - [ ] Все baseline-файлы на zero
 - [ ] `docs/` структура соответствует §5.1 core (universal sections созданы)
-- [ ] Минимум 6 universal skills в `.claude/skills/`
+- [ ] Минимум 5 universal skills в `.claude/skills/`
 - [ ] 3 hooks в `.claude/hooks/` (executable)
 - [ ] Memory MEMORY.md инициализирован
 - [ ] Минимум 1 ralphex plan успешно прошёл pipeline end-to-end

@@ -405,7 +405,6 @@ Same as greenfield Шаг 9 + 10. Skills:
   facade-decomposition/SKILL.md
   fix-cross-module-import/SKILL.md
   docs-sync-after-change/SKILL.md
-  slice-draft-to-plans/SKILL.md
 ```
 
 Hooks:
@@ -609,7 +608,7 @@ ralphex docs/plans/active/<pack>-<slug>.md
 - [ ] CI runs все 9 gates, pass (т.к. fail только на NEW)
 - [ ] `docs/` minimum structure backfill'ена
 - [ ] `CLAUDE.md` ≤100 строк, упоминает baseline mechanic
-- [ ] 6 universal skills + 3 hooks установлены
+- [ ] 5 universal skills + 3 hooks установлены
 - [ ] Memory `MEMORY.md` + `project_initial_audit.md` созданы
 - [ ] Cleanup-on-touch hook active и реагирует на baselined files
 - [ ] Первый ralphex run успешный
